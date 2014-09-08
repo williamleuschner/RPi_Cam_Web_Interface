@@ -101,7 +101,9 @@ case "$1" in
 
         sudo cp -r bin/raspimjpeg /opt/vc/bin/
         sudo chmod 755 /opt/vc/bin/raspimjpeg
-        sudo ln -s /opt/vc/bin/raspimjpeg /usr/bin/raspimjpeg
+        if [ ! -e /usr/bin/raspimjpeg ]; then
+          sudo ln -s /opt/vc/bin/raspimjpeg /usr/bin/raspimjpeg
+        fi
 
         if [ "$rpicamdir" == "" ]; then
           cat etc/raspimjpeg/raspimjpeg.1 > etc/raspimjpeg/raspimjpeg
