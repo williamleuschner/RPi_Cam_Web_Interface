@@ -75,10 +75,10 @@ case "$1" in
         sudo mkdir -p /var/www/$rpicamdir/media
         sudo cp -r www/* /var/www/$rpicamdir/
         if [ -e /var/www/$rpicamdir/index.html ]; then
-	  sudo rm /var/www/$rpicamdir/index.html
+          sudo rm /var/www/$rpicamdir/index.html
         fi
         sudo chown -R www-data:www-data /var/www/$rpicamdir
-	if [ ! -e /var/www/$rpicamdir/FIFO ]; then
+        if [ ! -e /var/www/$rpicamdir/FIFO ]; then
           sudo mknod /var/www/$rpicamdir/FIFO p
         fi
         sudo chmod 666 /var/www/$rpicamdir/FIFO
