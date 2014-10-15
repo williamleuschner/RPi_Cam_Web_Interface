@@ -1,12 +1,16 @@
 <!DOCTYPE html>
+<?php
+  define('BASE_DIR', dirname(__FILE__));
+  require_once(BASE_DIR.'/config.php');
+?>
 <html>
   <head>
-    <title>RPi Cam Control</title>
+    <title><?php echo CAM_STRING; ?></title>
     <script src="script.js"></script>
   </head>
   <body onload="setTimeout('init();', 100);">
     <center>
-      <h1>RPi Cam Control</h1>
+      <h1><?php echo CAM_STRING; ?></h1>
       <div><img id="mjpeg_dest"></div>
       <input id="video_button" type="button">
       <input id="image_button" type="button">
@@ -36,6 +40,13 @@
         <tr>
           <td>Timelapse-Interval (0.1...3200):</td>
           <td><input type="text" size=4 id="tl_interval" value="3">s</td>
+        </tr>
+        <tr>
+          <td>Annotation (max 31 characters):</td>
+          <td>
+            Text: <input type="text" size=20 id="annotation"><input type="button" value="OK" onclick="send_cmd('an ' + encodeURI(document.getElementById('annotation').value))"><input type="button" value="Default" onclick="document.getElementById('annotation').value = 'RPi Cam %04d.%02d.%02d_%02d:%02d:%02d'; send_cmd('an ' + encodeURI(document.getElementById('annotation').value))"><br>
+            Black background: <input type="button" value="ON" onclick="send_cmd('ab 1')"><input type="button" value="OFF" onclick="send_cmd('ab 0')">
+          </td>
         </tr>
         <tr>
           <td>Sharpness (-100...100), default 0:</td>
@@ -200,6 +211,10 @@
           <td><input type="text" size=10 id="bitrate"><input type="button" value="OK" onclick="send_cmd('bi ' + document.getElementById('bitrate').value)"></td>
         </tr>
       </table>
+      <p>
+        <input id="shutdown_button" type="button" value="shutdown system" onclick="sys_shutdown();">
+        <input id="reboot_button" type="button" value="reboot system" onclick="sys_reboot();">
+      </p>
     </center>
   </body>
 </html>
