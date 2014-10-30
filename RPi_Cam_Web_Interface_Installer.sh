@@ -183,7 +183,9 @@ case "$1" in
         fi
         sudo cp -r etc/nginx/sites-available/rpicam /etc/nginx/sites-available/rpicam
         sudo chmod 644 /etc/nginx/sites-available/rpicam
-        sudo ln -s /etc/nginx/sites-available/rpicam /etc/nginx/sites-enabled/rpicam
+        if [ ! -e /etc/nginx/sites-enabled/rpicam ]; then
+          sudo ln -s /etc/nginx/sites-available/rpicam /etc/nginx/sites-enabled/rpicam
+        fi
 
         # Update nginx main config file
         sudo sed -i "s/worker_processes 4;/worker_processes 2;/g" /etc/nginx/nginx.conf
@@ -192,6 +194,7 @@ case "$1" in
         if ["$NGINX_DISABLE_LOGGING"]; then
             sudo sed -i "s:access_log /var/log/nginx/nginx/access.log;:access_log /dev/null;:g" /etc/nginx/nginx.conf
         fi
+
         # Configure php-apc
         sudo sh -c "echo \"cgi.fix_pathinfo = 0;\" >> /etc/php5/fpm/php.ini"
         sudo cp etc/php5/apc.ini /etc/php5/conf.d/20-apc.ini
